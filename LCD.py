@@ -14,6 +14,14 @@ import struct
 import socket
 import subprocess
 import os
+import psutil
+import statsd
+import datetime
+from time import strftime
+
+# Get date
+def getDate():
+  return strftime("%H:%M:%S" + " - %d %b %Y", time.localtime())
 
 # Get Serial
 def getserial():
@@ -84,30 +92,34 @@ while True:
         font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 7)
 
         # Write mac text.
-        draw.text((1,1), 'mac:', font=font)
+        draw.text((1,1), 'MAC:', font=font)
         draw.text((20,1), getHwAddr('wlan0'), font=font)
         
         # Wirte ip text.
-        draw.text((1,8), 'ip:', font=font)
-        draw.text((11,8), ip, font=font)
+        draw.text((1,7), 'IP:', font=font)
+        draw.text((11,7), ip, font=font)
         
         # Write Temperature text.
-        draw.text((1,15), getCPUtemperature(), font=font)
+        draw.text((1,13), getCPUtemperature(), font=font)
         
         # Write hostname text.
-        draw.text((1,22), 'host:', font=font)
-        draw.text((20,22), hostname, font=font)
+        draw.text((1,19), 'HOST:', font=font)
+        draw.text((24,19), hostname, font=font)
         
         # Write Serial text.
-        draw.text((1,29), 'SN:', font=font)
-        draw.text((14,29), getserial(), font=font)
+        draw.text((1,25), 'SN:', font=font)
+        draw.text((15,25), getserial(), font=font)
 
         # Write core text.
-        draw.text((1,36), getVoltage(), font=font)
+        draw.text((1,31), getVoltage(), font=font)
         
-
+        # Write Date text.
+        draw.text((1,37), getDate(), font=font)
+        
         # Display image.
         disp.image(image)
         disp.display()
         
-        time.sleep(0.5)
+        time.sleep(1)
+
+        
